@@ -1,33 +1,34 @@
 const fs = require('fs');
 
 
+let crearInforme = (base, limite) => {
 
 
-let crearInforme = async(base) => {
+
+    return new Promise((resolve, reject) => {
 
 
-    if (!Number(base)) {
-        throw new Error('La base introducida no es un número');
-    }
-    let data = "";
+        if (!Number(base)) {
+            throw new Error('La base introducida no es un número');
+        }
+        let data = "";
 
-    for (let index = 1; index <= 10; index++) {
-        data += (`${base} * ${index} : ` + index * base) + "\n";
-
-    }
-
-
-    fs.writeFile(`./archivos/tabla-${base}.txt`, data, (err) => {
-            if (err) throw err;
-            else {
-                return 2;
-                //  return `tabla-${base}.txt`;
-            }
+        for (let index = 1; index <= limite; index++) {
+            data += (`${base} * ${index} : ` + index * base) + "\n";
 
         }
 
 
-    );
+        fs.writeFile(`./archivos/tabla-${base}.txt`, data, (err) => {
+
+            if (err) reject(err);
+            else { resolve(`tabla-${base}.txt`); }
+
+        });
+
+
+    });
+
 
 
 }
