@@ -1,7 +1,9 @@
 const fs = require('fs');
 
+const color = require("colors");
 
-let crearInforme = (base, limite) => {
+
+let crearInforme = (base, limite = 10) => {
 
 
 
@@ -22,7 +24,7 @@ let crearInforme = (base, limite) => {
         fs.writeFile(`./archivos/tabla-${base}.txt`, data, (err) => {
 
             if (err) reject(err);
-            else { resolve(`tabla-${base}.txt`); }
+            else { resolve(`Archivo creado : `.white + `tabla-${base}-al-${limite}.txt`.green); }
 
         });
 
@@ -35,4 +37,5 @@ let crearInforme = (base, limite) => {
 
 module.exports = {
     crearInforme
+
 }
