@@ -1,6 +1,6 @@
 const argv = require("./config/config-yargs").argv;
 const colors = require('colors');
-const crearT = require("./logica/crearTarea");
+const gestionarTask = require("./logica/gestionarTarea");
 
 let comando = argv._[0];
 
@@ -11,7 +11,7 @@ switch (comando) {
 
             console.log('Crear tarea '.green);
 
-            console.log(crearT.crear(argv.d));
+            console.log(gestionarTask.crear(argv.d));
 
             break;
         }
@@ -19,15 +19,35 @@ switch (comando) {
     case 'listar':
         {
             console.log('Listar'.green);
-            console.log(crearT.getListado());
+            console.log(gestionarTask.getListado());
             break;
         }
 
     case 'actualizar':
         {
             console.log('Actualizar'.green);
+            console.log(gestionarTask.actualizar(parseInt(argv.id), argv.c));
             break;
         }
+
+    case 'borrar':
+        {
+            console.log('Borrar'.green);
+            console.log(gestionarTask.borrarTarea(parseInt(argv.id)));
+            break;
+        }
+
+
+    case 'listaFiltrada':
+        {
+            console.log('lista Filtrada '.green);
+            console.log("Valor : " + argv.completado);
+            console.log(gestionarTask.listarTareasFiltro(argv.completado));
+            break;
+        }
+
+
+
     default:
         {
             console.log('(x) Comando invalido'.red);

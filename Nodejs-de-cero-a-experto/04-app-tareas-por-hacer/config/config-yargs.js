@@ -1,3 +1,10 @@
+const id = {
+    alias: 'id',
+    describe: 'id la tarea',
+    demandOption: true
+
+}
+
 const argv = require('yargs')
     .command('crear', 'Registra una tarea por hacer', {
         'descripcion': {
@@ -8,12 +15,7 @@ const argv = require('yargs')
 
     })
     .command('actualizar', 'Actualizar tareas guardadas', {
-        descripcion: {
-            alias: 'd',
-            describe: 'Nombre la tarea',
-            demandOption: true
-
-        },
+        id,
         completado: {
             alias: 'c',
             describe: 'Indica si una tarea ha sido realizada o no',
@@ -23,7 +25,19 @@ const argv = require('yargs')
 
 
     })
-    .help()
+    .command('borrar', 'borrar tareas guardadas', {
+        id
+    })
+    .command('listaFiltrada', 'listar tareas guardadas', {
+        completado: {
+            alias: 'c',
+            describe: 'Filtra las tareas guardadas con el estado recibido',
+            default: true
+
+        }
+    })
+
+.help()
     .argv
 
 module.exports = {
