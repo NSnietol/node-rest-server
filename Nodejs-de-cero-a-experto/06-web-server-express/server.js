@@ -1,7 +1,14 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const hbs = require('hbs');
+
 
 app.use(express.static(__dirname + '/public'))
+
+hbs.registerPartials(__dirname + '/views/partials');
+
+app.set('view engine', 'hbs');
+
 
 /*
 Express da soporte a los siguientes métodos de direccionamiento que se corresponden con los métodos HTTP: 
@@ -16,13 +23,26 @@ los métodos de solicitud.
 
 */
 
-app.get('/?', (req, res) => {
+app.get('/', (req, res) => {
 
+    res.render('home.hbs', {
+        nombre: 'Nilson'
+    });
     //res.redirect('http://google.com');
-
-    res.send(JSON.stringify({ nombre: 'Server Express' }));
+    //    res.send(JSON.stringify({ nombre: 'Server Express' }));
 
 })
+
+app.get('/about', (req, res) => {
+
+    res.render('about.hbs', {
+        nombre: 'Nilson'
+    });
+    //res.redirect('http://google.com');
+    //    res.send(JSON.stringify({ nombre: 'Server Express' }));
+
+})
+
 
 app.listen(3000, (request, answer) => {
 
