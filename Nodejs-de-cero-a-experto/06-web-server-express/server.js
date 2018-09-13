@@ -9,6 +9,8 @@ hbs.registerPartials(__dirname + '/views/partials');
 
 app.set('view engine', 'hbs');
 
+const port = process.env.PORT || 3000;
+
 
 /*
 Express da soporte a los siguientes métodos de direccionamiento que se corresponden con los métodos HTTP: 
@@ -44,7 +46,7 @@ app.get('/about', (req, res) => {
 })
 
 
-app.listen(3000, (request, answer) => {
+app.listen(port, (request, answer) => {
 
-    console.log('Escuchando sobre el puerto : 3000');
+    console.log('Escuchando sobre el puerto : ' + port);
 });
