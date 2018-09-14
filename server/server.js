@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.use(require('./controladores/usuario'));
+app.use(require('./controladores/controlador_usuario'));
 
 
 mongoose.set('useCreateIndex', true)
