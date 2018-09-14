@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(require('./controladores/usuario'));
 
 
+mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true }, (error, answer) => {
 
     if (error) {

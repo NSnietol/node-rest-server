@@ -6,28 +6,31 @@ let usuarioSchema = new Schema({
 
     nombre: {
         type: String,
-        require: [true, 'El nombre es necesario']
+        uppercase:true,
+        unique: true,
+        required: [true, 'El nombre es necesario']
     },
 
     email: {
         type: String,
-        require: [true, 'El email es necesario']
+        unique: true,
+        require: [true, 'El correo es necesario']
     },
     password: {
         type: String,
-        require: [true, 'El password es obligatoria']
+        required: [true, 'El password es obligatoria']
     },
     img: {
         type: String,
-        require: false
+        required: false
     },
     role: {
         type: String,
+        uppercase:true,
         default: "Normal"
     },
     estado: {
-        type: Boolean,
-        require: [false, 'El estado es necesario']
+        type: Boolean,  default: true
     },
     google: {
         type: Boolean,

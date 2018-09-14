@@ -27,7 +27,8 @@ app.post('/usuario', function(req, res) {
 
     });
 
-    usuario.save((err, answer) => {
+
+usuario.save((err, answer) => {
 
         if (err) {
             return res.status(400).json({
@@ -35,11 +36,11 @@ app.post('/usuario', function(req, res) {
                 err
             });
         }
-
+        console.log('Insertado ');
         res.json({
             ok: true,
             usuario: answer
-        })
+        });
 
     });
 
