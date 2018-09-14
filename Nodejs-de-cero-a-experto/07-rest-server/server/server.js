@@ -2,64 +2,31 @@ require('./config/config');
 
 const express = require('express');
 
+const mongoose = require('mongoose');
+
 const app = express();
 
 const bodyParser = require('body-parser');
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
-
-app.get('/', function (req, res) {
-    res.json({ "Mensaje": 'Hello World' });
-})
+app.use(require('./controladores/usuario'));
 
 
-app.get('/usuario', function (req, res) {
-    res.json({ "Mensaje": 'Get Usuario ' });
-});
+mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true }, (error, answer) => {
 
-
-// Crear registro por convención
-app.post('/usuario', function (req, res) {
-
-    let body = req.body;
-
-
-    if (body.nombre === undefined) {
-
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es requerido'
-        });
-
+    if (error) {
+        throw error;
     } else {
-
-        res.json({ persona: body });
-
+        console.log('BD connected');
     }
 
-
-
-
-
 });
 
-
-// Actualizar
-app.put('/usuario/:id', function (req, res) {
-    let id = req.params.id;
-    res.json({ "Mensaje": 'PUT Usuario', id });
-});
-
-// No eliminar, solo bloquear
-app.delete('/usuario', function (req, res) {
-    res.json({ "Mensaje": 'Delete Usuario' });
-});
 
 
 app.listen(process.env.PORT, () => {
