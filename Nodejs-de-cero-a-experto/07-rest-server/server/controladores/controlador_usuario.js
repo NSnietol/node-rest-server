@@ -83,7 +83,7 @@ app.post('/usuario', function(req, res) {
                 err
             });
         }
-        console.log('Insertado ');
+        console.log(`Usuario  agregado : ${answer.nombre}`);
         res.json({
             ok: true,
             usuario: answer
