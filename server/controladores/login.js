@@ -37,7 +37,7 @@ app.post('/auth',(req,res)=>{
 
             let token = jwt.sign({
                 usuario
-              }, 'D/E/V_S/E/C/R/E/T_2/0/1/8_0/9_1/8', { expiresIn: 60 * 60 });
+              }, process.env.SEED ,{ expiresIn: process.env.CADUCIDAD_TOKEN });
             
         
             return  res.json({

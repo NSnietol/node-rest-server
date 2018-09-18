@@ -18,7 +18,8 @@ process.env.urlDB = urlDB;
 
 //===================VENCIMIENTO DEL TOKEN ============
 // Recibe el parametro por segundos
-process.env.CADUCIDAD_TOKE = 60*60*24;
+// '1h'
+process.env.CADUCIDAD_TOKEN ='1h';
 
 //===================SEED DEL TOKEN ============
 
