@@ -61,11 +61,9 @@ app.get('/usuario',auth.validarToken ,function(req, res) {
 
 
 // Crear registro por convención
-app.post('/usuario', auth.validarToken,function(req, res) {
+app.post('/usuario', auth.validarToken,auth.validarRole,function(req, res) {
 
     let body = req.body;
-
-
 
     let usuario = new Usuario({
 
@@ -97,7 +95,7 @@ app.post('/usuario', auth.validarToken,function(req, res) {
 
 
 // Actualizar
-app.put('/usuario/:id',auth.validarToken, function(req, res) {
+app.put('/usuario/:id',auth.validarToken,auth.validarRole, function(req, res) {
 
     let id = req.params.id;
 
@@ -122,7 +120,7 @@ app.put('/usuario/:id',auth.validarToken, function(req, res) {
 });
 
 // No eliminar, solo bloquear
-app.delete('/usuario', auth.validarToken,function(req, res) {
+app.delete('/usuario', auth.validarToken,auth.validarRole,function(req, res) {
 
 
     let id = req.body.id;

@@ -30,6 +30,28 @@ let validarToken=(req,res,next)=>{
 
 };
 
+
+
+let validarRole=(req,res,next)=>{
+
+    let usuario = req.usuario;
+
+    if(usuario.role==='ADMIN_ROLE'){
+        next();
+
+    }else{
+
+        return res.status(400).json({
+
+            ok:false,
+            message: "No cuenta con permisos para realizar esta operación"
+        });
+    }
+
+}
+
+
+
 module.exports = {
-    validarToken
+    validarToken,validarRole
 }

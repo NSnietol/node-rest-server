@@ -17,8 +17,14 @@ app.post('/auth',(req,res)=>{
 
     let body  = req.body;
 
- 
-    
+    if(!body.email || !body.password){
+
+        return  res.status(400).json({
+            ok: false,
+            message:'Email y contraseña son requeridos '
+        });
+    }
+
     Usuario.findOne({email:body.email},(err,usuario)=>{
 
 
