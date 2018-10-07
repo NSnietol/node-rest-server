@@ -25,10 +25,10 @@ app.post('/auth',(req,res)=>{
         });
     }
 
+  
     Usuario.findOne({email:body.email},(err,usuario)=>{
-
-
-        if(usuario===undefined || err){
+     
+        if(usuario===undefined || err || usuario==null){
 
     
           return  res.status(400).json({
