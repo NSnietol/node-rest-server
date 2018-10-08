@@ -34,7 +34,9 @@ xhr.send('idtoken=' + id_token);
 
 }
     </script>
-    <a href="#" onclick="signOut();">Sign out</a>
+    <button type="button" class="btn btn-danger" onclick="signOut();">Sign out</button>
+
+   
     <script>
       function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
