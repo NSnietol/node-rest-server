@@ -25,7 +25,7 @@ app.get('/categoria', auth.validarToken, (req, res) => {
     let estado = Boolean(req.body.estado || true);
 
     // La segunda cadena indica que campos extraer
-    Categoria.find({ descripcion }, 'nombre email estado')
+    Categoria.find({ descripcion }, 'descripcion')
         .skip(desde)
         .limit(limite)
         .exec((err, categorias) => {
@@ -68,6 +68,29 @@ app.get('/categoria/:id', (req, res) => {
 
 // Nueva categoria
 app.post('/categoria', auth.validarToken, (req, res) => {
+
+console.log("INicia?");
+    let body = req.body;
+
+    let categoria = new Categoria({
+        usuario: req.usuario._id,
+        descripcion: body.descripcion
+    });
+
+    categoria.save((err, answer) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        console.log(`Categoria creada   : ${answer.descripcion}`);
+        res.json({
+            ok: true,
+            categoria: answer
+        });
+
+    });
 
 
 });
