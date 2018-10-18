@@ -24,8 +24,10 @@ app.get('/categoria', auth.validarToken, (req, res) => {
 
     let estado = Boolean(req.body.estado || true);
 
+    let usuario = req.usuario._id;
+
     // La segunda cadena indica que campos extraer
-    Categoria.find({ descripcion }, 'descripcion')
+    Categoria.find({ usuario }, 'descripcion')
         .skip(desde)
         .limit(limite)
         .exec((err, categorias) => {
@@ -37,7 +39,7 @@ app.get('/categoria', auth.validarToken, (req, res) => {
                 });
             }
 
-            categorias.countDocuments({ descripcion }, (err, cantidad) => {
+            Categoria.countDocuments({ usuario }, (err, cantidad) => {
 
 
                 if (err) {
@@ -69,7 +71,6 @@ app.get('/categoria/:id', (req, res) => {
 // Nueva categoria
 app.post('/categoria', auth.validarToken, (req, res) => {
 
-console.log("INicia?");
     let body = req.body;
 
     let categoria = new Categoria({
@@ -104,7 +105,47 @@ app.put('/categoria/:id', auth.validarToken, (req, res) => {
 
 
 // SOlo un admin lo puede hacer, no ocultar 
-app.delete('/categoria/:id', auth.validarToken, (req, res) => {
+app.delete('/categoria', auth.validarToken, auth.validarRole, (req, res) => {
+    let descripcion = req.query.descripcion;
+
+    console.log(req.query);
+
+
+    if (!descripcion) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: 'Debe enviar una descripcion existente para este usuario'
+            }
+        });
+    }
+
+
+
+    Categoria.deleteOne({ descripcion: descripcion, usuario:req.usuario._id }, (err, categoria) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        if (!categoria) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Categoria no encontrado'
+                }
+            });
+        }
+        
+        res.json({ ok: true, 
+            message:'Categoria eliminada'
+        });
+
+
+     
+    });
 
 
 });
