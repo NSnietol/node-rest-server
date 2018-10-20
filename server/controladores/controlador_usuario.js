@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 
 const app = express();
 
@@ -10,12 +10,8 @@ const Usuario = require('../modelos/usuario');
 
 const auth = require('../middlewares/auth');
 
-app.get('/', function(req, res) {
-    res.json({ "Mensaje": 'Hello World' });
-})
 
-
-app.get('/usuario',auth.validarToken ,function(req, res) {
+app.get('/usuario', auth.validarToken, function(req, res) {
 
 
     let desde = Number(req.query.desde || 0); // Son parametros opcionales
@@ -61,7 +57,7 @@ app.get('/usuario',auth.validarToken ,function(req, res) {
 
 
 // Crear registro por convención
-app.post('/usuario', auth.validarToken,auth.validarRole,function(req, res) {
+app.post('/usuario', auth.validarToken, auth.validarRole, function(req, res) {
 
     let body = req.body;
 
@@ -95,7 +91,7 @@ app.post('/usuario', auth.validarToken,auth.validarRole,function(req, res) {
 
 
 // Actualizar
-app.put('/usuario/:id',auth.validarToken,auth.validarRole, function(req, res) {
+app.put('/usuario/:id', auth.validarToken, auth.validarRole, function(req, res) {
 
     let id = req.params.id;
 
@@ -120,7 +116,7 @@ app.put('/usuario/:id',auth.validarToken,auth.validarRole, function(req, res) {
 });
 
 // No eliminar, solo bloquear
-app.delete('/usuario', auth.validarToken,auth.validarRole,function(req, res) {
+app.delete('/usuario', auth.validarToken, auth.validarRole, function(req, res) {
 
 
     let id = req.body.id;
