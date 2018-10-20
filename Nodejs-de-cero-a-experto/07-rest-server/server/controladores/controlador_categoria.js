@@ -121,8 +121,8 @@ app.delete('/categoria', auth.validarToken, auth.validarRole, (req, res) => {
     }
 
 
-
-    Categoria.deleteOne({ descripcion: descripcion, usuario:req.usuario._id }, (err, categoria) => {
+    //usuario:req.usuario._id
+    Categoria.deleteOne({ descripcion: descripcion }, (err, categoria) => {
 
         if (err) {
             return res.status(400).json({
