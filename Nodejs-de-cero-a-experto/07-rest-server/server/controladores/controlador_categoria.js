@@ -2,18 +2,15 @@ const express = require('express');
 
 const app = express();
 
-const bcrypt = require('bcrypt');
-
 const _ = require('underscore');
 
 const Categoria = require('../modelos/categoria');
 
+const Usuario = require("../modelos/usuario");
+
 const auth = require('../middlewares/auth');
 
 
-app.get('/as', function(req, res) {
-    res.json({ "Mensaje": 'Hello World C' });
-})
 
 // Todas las categorias
 app.get('/categoria', auth.validarToken, (req, res) => {
@@ -23,11 +20,10 @@ app.get('/categoria', auth.validarToken, (req, res) => {
     let limite = Number(req.query.limite || 5);
 
     let estado = Boolean(req.body.estado || true);
-
-    let usuario = req.usuario._id;
-
     // La segunda cadena indica que campos extraer
-    Categoria.find({ usuario }, 'descripcion')
+    Categoria.find({}, 'descripcion')
+        .sort("descripcion")
+        .populate("usuario", 'nombre email')
         .skip(desde)
         .limit(limite)
         .exec((err, categorias) => {
@@ -38,9 +34,7 @@ app.get('/categoria', auth.validarToken, (req, res) => {
                     err
                 });
             }
-
-            Categoria.countDocuments({ usuario }, (err, cantidad) => {
-
+            Categoria.countDocuments({}, (err, cantidad) => {
 
                 if (err) {
                     return res.status(400).json({
@@ -61,9 +55,28 @@ app.get('/categoria', auth.validarToken, (req, res) => {
 });
 
 
+// Todas las categorias de un usuario
+app.get('/categoria/:id', auth.validarToken, (req, res) => {
 
-app.get('/categoria/:id', (req, res) => {
+    let id = req.params.id;
 
+    Categoria.find({ usuario: id }, (err, categorias) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Debe enviar un id valido'
+                }
+            });
+        }
+
+        res.json({
+            ok: true,
+            categorias
+        });
+
+    });
 
 });
 
@@ -96,10 +109,33 @@ app.post('/categoria', auth.validarToken, (req, res) => {
 
 });
 
-// Todas las categorias de un usuario
+// Actualizar categoria 
 
 app.put('/categoria/:id', auth.validarToken, (req, res) => {
 
+    let id = req.params.id;
+
+
+    if (!id || id.length < 14) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: 'Debe enviar un id válido'
+            }
+        });
+    }
+
+    Categoria.findOneAndUpdate({ _id: id }, { descripcion: req.body.descripcion }, { new: true, runValidators: true }, (err, categoria) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({ ok: true, categoria });
+
+    });
 
 });
 
@@ -107,9 +143,7 @@ app.put('/categoria/:id', auth.validarToken, (req, res) => {
 // SOlo un admin lo puede hacer, no ocultar 
 app.delete('/categoria', auth.validarToken, auth.validarRole, (req, res) => {
     let descripcion = req.query.descripcion;
-
     console.log(req.query);
-
 
     if (!descripcion) {
         return res.status(400).json({
@@ -120,9 +154,7 @@ app.delete('/categoria', auth.validarToken, auth.validarRole, (req, res) => {
         });
     }
 
-
-    //usuario:req.usuario._id
-    Categoria.deleteOne({ descripcion: descripcion }, (err, categoria) => {
+    Categoria.deleteOne({ descripcion, usuario: req.usuario._id }, (err, categoria) => {
 
         if (err) {
             return res.status(400).json({
@@ -138,13 +170,12 @@ app.delete('/categoria', auth.validarToken, auth.validarRole, (req, res) => {
                 }
             });
         }
-        
-        res.json({ ok: true, 
-            message:'Categoria eliminada'
+
+        res.json({
+            ok: true,
+            message: 'Categoria eliminada'
         });
 
-
-     
     });
 
 
