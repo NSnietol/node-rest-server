@@ -9,7 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
 
 let urlDB = process.env.NODE_ENV === 'dev' ? 'mongodb://localhost:27017/cafe' : process.env.MONGO_URI;
 
-process.env.urlDB = 'mongodb://dev_user_pro:DEVmongo8@ds161062.mlab.com:61062/cafe';
+process.env.urlDB = urlDB;
 
 //===================VENCIMIENTO DEL TOKEN ============
 // Recibe el parametro por segundos
